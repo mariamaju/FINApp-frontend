@@ -1,0 +1,252 @@
+Dashboard.css
+/* Overall container */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 18%; /* Sidebar width */
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 8px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100; /* Ensures sidebar stays on top */
+  overflow-y: auto;
+  margin: 1%;
+}
+
+.sidebar-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #4a4a4a;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.sidebar-item.active {
+  color: #3182ce;
+  font-weight: bold;
+}
+
+.sidebar-item.signout {
+  color: #e53e3e;
+}
+
+.sidebar-item .icon {
+  margin-right: 8px;
+}
+
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  padding: 15px;
+  margin-left: 20%; /* To account for the sidebar width */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100vh;
+  width: 1500px;
+  /* background-color: white; */
+ /* Light background for content area */
+}
+
+/* Top Navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+
+.main-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  padding: 2%;
+}
+
+.top-nav-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-expense-btn {
+  padding: 8px 16px;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between; /* Distribute space evenly */
+  flex-wrap: nowrap; /* Keep cards on the same line */
+  
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 13.333px); /* Adjust the width of the cards */
+  /* Allow 3 cards to be evenly spaced within the container */
+  min-width: 300px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.payment-icons {
+  display: flex;
+  gap: 70px;
+  font-size: 2rem;
+  color: #4a4a4a;
+  padding: 10px;
+}
+
+.reward-icon {
+  font-size: 3rem;
+  color: #f6ad55;
+}
+
+/* Graph and Sidebar */
+.graph-and-sidebar {
+  display: flex;
+  gap: 20px;
+}
+
+.bar-chart {
+  flex: 2;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #edf2f7;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.setting-item:hover {
+  background-color: #e2e8f0;
+}
+
+.setting-item span {
+  margin-left: 10px;
+}
+
+.setting-icon {
+  font-size: 1.5rem;
+  color: #4a4a4a;
+}
+
+/* Recent Transactions */
+.recent-transactions {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.transaction-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.transaction-amount {
+  color: #e53e3e;
+}
+
+/* Responsive layout adjustments for smaller screens */
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center;
+  }
+
+  .card {
+    width: 80%; /* On smaller screens, cards take up more width */
+  }
+
+  .graph-and-sidebar {
+    flex-direction: column;
+  }
+
+  .bar-chart, .settings-sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .top-nav-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dashboard-cards {
+    flex-direction: column;
+  }
+}

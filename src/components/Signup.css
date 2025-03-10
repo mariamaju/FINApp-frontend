@@ -1,0 +1,108 @@
+.signup-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  .sidebar {
+    width: 25%;
+    background: #232b37;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    height: 100%;
+  }
+  
+  .sidebar h2 {
+    font-family: "Georgia", serif;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .step-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .step-list li {
+    padding: 10px 0;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .step-list .active {
+    font-weight: bold;
+    color: white;
+  }
+  
+  .form-content {
+    width: 75%;
+    padding: 50px;
+    background-color: #fff7e6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-content h2 {
+    color: black;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    background-color: #d1d6e0;
+    border: none;
+    border-radius: 25px;
+    color: black;
+    font-size: 1rem;
+  }
+  
+  .input-group input:focus {
+    outline: none;
+    border: 2px solid #c1d1ea;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #4c75b1, #274e7e);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  button:hover {
+    background: linear-gradient(to right, #274e7e, #4c75b1);
+  }
+  
+  .back-btn {
+    margin-top: 10px;
+    background: #888;
+  }
+  
+  .back-btn:hover {
+    background: #666;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+  }
