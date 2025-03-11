@@ -1,0 +1,229 @@
+.income-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.income-input {
+  margin-bottom: 20px;
+}
+
+.income-input label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.income-input input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.fixed-expenses h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  cursor: pointer;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.sub-category {
+  margin-left: 20px;
+}
+
+.sub-category-item {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sub-category-item label {
+  font-weight: bold;
+}
+
+.sub-category-item span {
+  font-size: 14px;
+  color: #555;
+}
+
+.add-other {
+  margin-top: 10px;
+}
+
+.add-other input {
+  width: calc(50% - 5px);
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.add-other button {
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-other button:hover {
+  background-color: #0056b3;
+}
+
+.ok-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ok-button:hover {
+  background-color: #0056b3;
+}-page {
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Prevents excessive spacing */
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+.welcome-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.welcome {
+  font-size: 1.25rem;
+  font-weight: 600;
+  align-self: flex-start;
+  margin-bottom: 16px;
+}
+
+.fixed-income-label {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.categories-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  overflow-y: auto; /* Allows scrolling only inside the container */
+  max-height: 80vh; /* Prevents zooming when scrolling */
+}
+
+.category-section {
+  width: 90%;
+  background-color: #1f2937;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: white;
+}
+
+.category-items {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 12px; /* Added space between Expense Type and Amount */
+}
+
+.add-other {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.add-other input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  background-color: #374151;
+  color: white;
+  text-align: center;
+  outline: none;
+}
+
+input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  background-color: #374151;
+  color: white;
+  text-align: center;
+  outline: none;
+}
+
+.add-btn {
+  color: #60a5fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.next-btn {
+  width: 100%;
+  max-width: 300px;
+  background-color: #2563eb;
+  color: white;
+  margin-top: 24px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+html, body {
+  overflow-x: hidden; /* Prevents zoom-out effect */
+  touch-action: manipulation; /* Prevents pinch-to-zoom issues */
+}

@@ -1,0 +1,131 @@
+/* General Styles */
+.budget-setting-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7fafc;
+    padding: 20px;
+}
+
+.budget-setting-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 480px;
+}
+
+.budget-setting-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.budget-setting-subtitle {
+    font-size: 14px;
+    color: #718096;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Category Styles */
+.category-container {
+    margin-bottom: 20px;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.category-icon {
+    font-size: 24px; /* Adjust icon size */
+    color: #4a90e2; /* Icon color */
+}
+
+.category-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.category-max {
+    font-size: 14px;
+    color: #718096;
+    margin: 0;
+}
+
+/* Budget Input Styles */
+.budget-input-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.budget-input {
+    width: 100px;
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.budget-slider {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.budget-slider:hover {
+    opacity: 1;
+}
+
+.budget-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4a90e2;
+    cursor: pointer;
+}
+
+.budget-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4a90e2;
+    cursor: pointer;
+}
+
+/* Back Button Styles */
+.back-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #357abd;
+}

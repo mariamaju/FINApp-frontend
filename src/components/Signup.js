@@ -52,7 +52,7 @@ const Signup = () => {
        // localStorage.setItem('token', response.data.token);
         
         // Redirect to Dashboard after successful login
-        navigate('/login');
+        navigate('/income');
       } catch (error) {
         console.log("data",error);
         // Handle error response from the backend
@@ -61,7 +61,7 @@ const Signup = () => {
         );
       }
     alert("Sign up successful!");
-    //navigate("/Dashboard"); // Redirect to Income page
+     navigate("/income"); // Redirect to Income page
   };
 
   return (

@@ -1,5 +1,7 @@
-import React from "react";
+import React,{ useEffect, useState } from "react";
 import "./Dashboard.css";
+import axios from 'axios';
+
 import { useNavigate } from "react-router-dom";
 import {
   BarChart,
@@ -29,6 +31,33 @@ const data = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [dailyLimit, setDailyLimit] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("token",token)
+    const fetchDailySpendLimit = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
+
+        setDailyLimit(response.data.dailySpendLimit);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to fetch daily spend limit");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) { 
+      fetchDailySpendLimit();
+    }
+  }, []);
 
   return (
     <div className="dashboard-container">
@@ -83,7 +112,7 @@ const Dashboard = () => {
 
           {/* Daily Limit */}
           <div className="card daily-limit-card">
-            <h3 className="card-title">Daily Limit</h3>
+            <h3 className="card-title">Daily Spend Limit: ${dailyLimit}</h3>
           </div>
 
           {/* Rewards */}

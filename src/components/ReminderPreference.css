@@ -1,0 +1,95 @@
+/* General Styles */
+.reminder-preference-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7fafc;
+    padding: 20px;
+}
+
+.reminder-preference-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.reminder-preference-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.reminder-preference-subtitle {
+    font-size: 14px;
+    color: #718096;
+    margin-bottom: 24px;
+}
+
+/* Reminder Section Styles */
+.reminder-section {
+    margin-bottom: 20px;
+}
+
+.icon-time-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.reminder-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    padding: 10px;
+}
+
+.time-input {
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2d3748;
+    cursor: pointer;
+}
+
+.time-ampm {
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.reminder-label {
+    font-size: 16px;
+    color: #4a5568;
+    margin: 0;
+}
+
+/* OK Button Styles */
+.ok-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.ok-button:hover {
+    background-color: #357abd;
+}

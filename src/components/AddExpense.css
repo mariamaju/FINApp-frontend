@@ -1,0 +1,104 @@
+/* General Styles */
+.add-expense-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7fafc;
+    padding: 20px;
+}
+
+.add-expense-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.add-expense-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.add-expense-subtitle {
+    font-size: 14px;
+    color: #718096;
+    margin-bottom: 24px;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-label {
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2d3748;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Amount Input Styles */
+.amount-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px;
+    background-color: white;
+}
+
+.amount-prefix {
+    font-size: 14px;
+    color: #4a5568;
+    margin-right: 8px;
+}
+
+.amount-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #2d3748;
+    background-color: transparent;
+}
+
+.amount-input::placeholder {
+    color: #a0aec0;
+}
+
+/* Save Expense Button Styles */
+.save-expense-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.save-expense-button:hover {
+    background-color: #357abd;
+}
