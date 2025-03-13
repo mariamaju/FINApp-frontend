@@ -1,72 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import "./Signup.css";
-import axios from 'axios'; 
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    bankName: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const password = watch("password");
+
+  const onSubmit = async (data) => {
+    try {
+      console.log('data', data);
+      const response = await axios.post("http://localhost:3000/api/auth/register", data);
+      localStorage.setItem("token", response.data.token);
+      //console.log("data", response.data);
+      navigate("/income");
+    } catch (error) {
+      console.log("data", error);
+      setErrorMessage(error.response?.data?.message || "An error occurred. Please try again.");
+    }
   };
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("data",formData);
-    const { firstName, lastName, email, phone, bankName, password, confirmPassword } = formData;
-
-    if (!firstName || !lastName || !email || !phone || !bankName || !password || !confirmPassword) {
-      setErrorMessage("All fields are required!");
-      return;
+  const handleNextStep = async () => {
+    const valid = await trigger(["firstName", "lastName", "email", "phone", "bankName"]);
+    if (valid) {
+      setStep(2);
     }
-
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match!");
-      return;
-    }
-    try {
-        const response = await axios.post('http://localhost:3000/api/auth/register', {
-          firstName, 
-          lastName, 
-          email, 
-          phone, 
-          bankName, 
-          password,
-        });
-    console.log("data",response);
-        // Store the token in localStorage
-       // localStorage.setItem('token', response.data.token);
-        
-        // Redirect to Dashboard after successful login
-        navigate('/income');
-      } catch (error) {
-        console.log("data",error);
-        // Handle error response from the backend
-        setErrorMessage(
-          error.response?.data?.message || 'An error occurred. Please try again.'
-        );
-      }
-    alert("Sign up successful!");
-     navigate("/income"); // Redirect to Income page
   };
 
   return (
     <div className="signup-container">
-      {/* Sidebar */}
       <div className="sidebar">
         <h2 className="logo">FinAi</h2>
         <h3>Signup Process</h3>
@@ -76,38 +49,49 @@ const Signup = () => {
         </ul>
       </div>
 
-      {/* Form Section */}
       <div className="form-content">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         {step === 1 && (
-          <>
+          <form onSubmit={(e) => e.preventDefault()}>
             <h2>Personal Information</h2>
             <div className="input-group">
-              <input type="text" name="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} required />
-              <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formData.lastName} required />
-              <input type="email" name="email" placeholder="Email" onChange={handleChange} value={formData.email} required />
-              <input type="text" name="phone" placeholder="Phone Number" onChange={handleChange} value={formData.phone} required />
-              <input type="text" name="bankName" placeholder="Bank Name" onChange={handleChange} value={formData.bankName} required />
+              <input {...register("firstName", { required: "First Name is required" })} placeholder="First Name" />
+              {errors.firstName && <p className="error-message">{errors.firstName.message}</p>}
+
+              <input {...register("lastName", { required: "Last Name is required" })} placeholder="Last Name" />
+              {errors.lastName && <p className="error-message">{errors.lastName.message}</p>}
+
+              <input {...register("email", { required: "Email is required", pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email format" } })} placeholder="Email" />
+              {errors.email && <p className="error-message">{errors.email.message}</p>}
+
+              <input {...register("phone", { required: "Phone Number is required", pattern: { value: /^\d{10}$/, message: "Phone number must be 10 digits" } })} placeholder="Phone Number" />
+              {errors.phone && <p className="error-message">{errors.phone.message}</p>}
+
+              <input {...register("bankName", { required: "Bank Name is required" })} placeholder="Bank Name" />
+              {errors.bankName && <p className="error-message">{errors.bankName.message}</p>}
             </div>
-            <button onClick={nextStep} className="next-btn">Next</button>
-          </>
+            <button onClick={handleNextStep} className="next-btn">Next</button>
+          </form>
         )}
 
         {step === 2 && (
-          <>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h2>Security Details</h2>
             <div className="input-group">
-              <input type="password" name="password" placeholder="Password" onChange={handleChange} value={formData.password} required />
-              <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formData.confirmPassword} required />
+              <input {...register("password", { required: "Password is required", minLength: { value: 5, message: "Password must be at least 5 characters" } })} placeholder="Password" type="password" />
+              {errors.password && <p className="error-message">{errors.password.message}</p>}
+
+              <input {...register("confirmPassword", { required: "Confirm Password is required", validate: (value) => value === password || "Passwords do not match" })} placeholder="Confirm Password" type="password" />
+              {errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
             </div>
-            <button onClick={prevStep} className="back-btn">Back</button>
-            <button onClick={handleSubmit} className="signup-btn">Sign Up</button>
-          </>
+            <button onClick={() => setStep(1)} className="back-btn">Back</button>
+            <button type="submit" className="signup-btn">Sign Up</button>
+          </form>
         )}
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default Signup;

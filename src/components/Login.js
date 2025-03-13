@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
-import axios from 'axios'; // Import Axios
-import './Login.css';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import "./Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Hook for navigating programmatically
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (email === '' || password === '') {
-      setErrorMessage('Email and Password cannot be empty!');
-      return;
-    }
-
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', {
-        email,
-        password,
-      });
-     console.log("response",response);
-      // Store the token in localStorage
-      localStorage.setItem('token', response.data.token);
-      
-      // Redirect to Dashboard after successful login
-      navigate('/dashboard');
+      console.log('data', data);
+      const response = await axios.post("http://localhost:3000/api/auth/login", data);
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard");
     } catch (error) {
-      // Handle error response from the backend
-      setErrorMessage(
-        error.response?.data?.message || 'An error occurred. Please try again.'
-      );
+      setErrorMessage(error.response?.data?.message || "An error occurred. Please try again.");
     }
   };
 
@@ -49,33 +37,43 @@ const Login = () => {
             <div className="right">
               <div className="login-container">
                 <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="input-group">
                     <label htmlFor="email">Email:</label>
                     <input
                       type="email"
                       id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: /\S+@\S+\.\S+/,
+                          message: "Invalid email format",
+                        },
+                      })}
                     />
+                    {errors.email && <p className="error-message">{errors.email.message}</p>}
                   </div>
                   <div className="input-group">
                     <label htmlFor="password">Password:</label>
                     <input
                       type="password"
                       id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 5,
+                          message: "Password must be at least 5 characters",
+                        },
+                      })}
                     />
+                    {errors.password && <p className="error-message">{errors.password.message}</p>}
                   </div>
-                  <button type="submit" className="btn">Login</button>
                   {errorMessage && <p className="error-message">{errorMessage}</p>}
+                  <button type="submit" className="btn">Login</button>
                 </form>
                 <p>
                   Don't have an account? <Link to="/signup" className="link">Sign Up</Link>
-                </p> 
+                </p>
               </div>
             </div>
           </div>
@@ -85,4 +83,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;

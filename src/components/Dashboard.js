@@ -72,7 +72,6 @@ const Dashboard = () => {
             <IoMdTrendingUp className="icon" /> Spending
           </li>
           <li className="sidebar-item">💡 Insights</li>
-          <li className="sidebar-item">👤 Profile</li>
           <li className="sidebar-item">⚙ Settings</li>
           <li className="sidebar-item">❓ Help</li>
           <li className="sidebar-item signout" onClick={() => navigate("/")}>
@@ -112,7 +111,7 @@ const Dashboard = () => {
 
           {/* Daily Limit */}
           <div className="card daily-limit-card">
-            <h3 className="card-title">Daily Spend Limit: ${dailyLimit}</h3>
+            <h3 className="card-title">Daily Spend Limit: {dailyLimit}</h3>
           </div>
 
           {/* Rewards */}
