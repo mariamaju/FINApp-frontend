@@ -1,8 +1,8 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import axios from 'axios';
-
 import { useNavigate } from "react-router-dom";
+import Chatbot from "./chatbot"; // Importing Chatbot Component
 import {
   BarChart,
   Bar,
@@ -37,15 +37,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("token",token)
+    console.log("token", token);
     const fetchDailySpendLimit = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
-
         setDailyLimit(response.data.dailySpendLimit);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch daily spend limit");
@@ -53,52 +52,37 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-
-    if (token) { 
+    if (token) {
       fetchDailySpendLimit();
     }
   }, []);
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <aside className="sidebar">
         <h2 className="sidebar-header">Finai Dashboard</h2>
         <ul className="sidebar-list">
-          <li className="sidebar-item active">
-            📊 <span className="sidebar-item-text">Dashboard</span>
-          </li>
-          <li className="sidebar-item">
-            <IoMdTrendingUp className="icon" /> Spending
-          </li>
+          <li className="sidebar-item active">📊 Dashboard</li>
+          <li className="sidebar-item"><IoMdTrendingUp className="icon" /> Spending</li>
           <li className="sidebar-item">💡 Insights</li>
           <li className="sidebar-item">⚙ Settings</li>
           <li className="sidebar-item">❓ Help</li>
-          <li className="sidebar-item signout" onClick={() => navigate("/")}>
-            🔓 Signout
-          </li>
+          <li className="sidebar-item signout" onClick={() => navigate("/")}>🔓 Signout</li>
         </ul>
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
-        {/* Top Navigation */}
         <div className="top-nav">
           <h2 className="main-heading">Welcome, FinAI</h2>
           <div className="top-nav-actions">
             <input type="text" placeholder="Search" className="search-input" />
-            <button
-              className="add-expense-btn"
-              onClick={() => navigate("/add-expense")} // Navigate to AddExpense
-            >
+            <button className="add-expense-btn" onClick={() => navigate("/add-expense")}>
               Add Expense
             </button>
           </div>
         </div>
 
-        {/* Dashboard Cards */}
         <div className="dashboard-cards">
-          {/* Payment Options */}
           <div className="card payment-card">
             <h3 className="card-title">Payment</h3>
             <div className="payment-icons">
@@ -108,22 +92,16 @@ const Dashboard = () => {
               <FaMobileAlt />
             </div>
           </div>
-
-          {/* Daily Limit */}
           <div className="card daily-limit-card">
             <h3 className="card-title">Daily Spend Limit: {dailyLimit}</h3>
           </div>
-
-          {/* Rewards */}
           <div className="card rewards-card">
             <h3 className="card-title">Reward</h3>
             <FaTrophy className="reward-icon" />
           </div>
         </div>
 
-        {/* Graph & Right Sidebar (Settings) */}
         <div className="graph-and-sidebar">
-          {/* Bar Chart */}
           <div className="bar-chart">
             <h3 className="card-title">Spending Chart</h3>
             <ResponsiveContainer width="100%" height={200}>
@@ -136,49 +114,31 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Right Sidebar */}
           <div className="settings-sidebar">
-            <div className="setting-item goal-setting">
-              <FaBullseye className="setting-icon" />
-              <span>Goal Setting</span>
+            <div className="setting-item goal-setting"><FaBullseye className="setting-icon" /> Goal Setting</div>
+            <div className="setting-item reminder-setting" onClick={() => navigate("/reminder-preference")}>
+              <FaBell className="setting-icon" /> Reminder Setting
             </div>
-            <div
-              className="setting-item reminder-setting"
-              onClick={() => navigate("/reminder-preference")} // Navigate to ReminderPreference
-            >
-              <FaBell className="setting-icon" />
-              <span>Reminder Setting</span>
-            </div>
-            <div
-              className="setting-item budget-setting"
-              onClick={() => navigate("/budget-setting")} // Navigate to BudgetSetting
-            >
-              <FaTrophy className="setting-icon" />
-              <span>Budget Setting</span>
+            <div className="setting-item budget-setting" onClick={() => navigate("/budget-setting")}>
+              <FaTrophy className="setting-icon" /> Budget Setting
             </div>
           </div>
         </div>
 
-        {/* Recent Transactions */}
         <div className="recent-transactions">
           <h3 className="card-title">Recent Transactions</h3>
           <ul className="transaction-list">
-            <li className="transaction-item">
-              <span>Food</span> <span className="transaction-amount">-100</span>
-            </li>
-            <li className="transaction-item">
-              <span>Transport</span>{" "}
-              <span className="transaction-amount">-20</span>
-            </li>
-            <li className="transaction-item">
-              <span>Entertainment</span>{" "}
-              <span className="transaction-amount">-290</span>
-            </li>
+            <li className="transaction-item"><span>Food</span> <span className="transaction-amount">-100</span></li>
+            <li className="transaction-item"><span>Transport</span> <span className="transaction-amount">-20</span></li>
+            <li className="transaction-item"><span>Entertainment</span> <span className="transaction-amount">-290</span></li>
           </ul>
         </div>
       </main>
+
+      {/* Updated Chatbot Component with larger icon and input space */}
+      <Chatbot />
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard;
