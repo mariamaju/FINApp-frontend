@@ -66,7 +66,7 @@ const Dashboard = () => {
           <li className="sidebar-item active">
             📊 <span className="sidebar-item-text">Dashboard</span>
           </li>
-          <li className="sidebar-item" onClick={() => navigate("/spending")}> 
+          <li className="sidebar-item" onClick={() => navigate("/spending")}>
             <IoMdTrendingUp className="icon" /> Spending
           </li>
           <li className="sidebar-item">💡 Insights</li>
@@ -120,18 +120,18 @@ const Dashboard = () => {
           </div>
 
           <div className="settings-sidebar">
-            <div 
-              className="setting-item goal-setting" 
+            <div
+              className="setting-item goal-setting"
               onClick={() => navigate("/goal-setting")} // Added navigation here
             >
               <FaBullseye className="setting-icon" />
               <span>Goal Setting</span>
             </div>
-            <div className="setting-item reminder-setting" onClick={() => navigate("/reminder-preference")}> 
+            <div className="setting-item reminder-setting" onClick={() => navigate("/reminder-preference")}>
               <FaBell className="setting-icon" />
               <span>Reminder Setting</span>
             </div>
-            <div className="setting-item budget-setting" onClick={() => navigate("/budget-setting")}> 
+            <div className="setting-item budget-setting" onClick={() => navigate("/budget-setting")}>
               <FaTrophy className="setting-icon" />
               <span>Budget Setting</span>
             </div>
