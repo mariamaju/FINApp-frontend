@@ -22,43 +22,63 @@ import {
 } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
 
-const data = [
-  { name: "Transport", value: 400 },
-  { name: "Entertainment", value: 200 },
-  { name: "Food", value: 600 },
-  { name: "Savings", value: 300 },
-];
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [dailyLimit, setDailyLimit] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [data, setData] = useState([
+    { name: "Transport", value: 400 },
+    { name: "Entertainment", value: 200 },
+    { name: "Food", value: 600 },
+    { name: "Savings", value: 300 },
+  ]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("token",token)
-    const fetchDailySpendLimit = async () => {
+    console.log("token", token);
+
+    const fetchFinancialData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
+        // Fetch daily spend limit
+        const dailyLimitResponse = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
 
-        setDailyLimit(response.data.dailySpendLimit);
+        setDailyLimit(dailyLimitResponse.data.dailySpendLimit);
+
+        // Fetch budget suggestion
+        const budgetResponse = await axios.get("http://localhost:3000/api/auth/budget-suggestion", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            familyMembers: 4, // Change this dynamically if needed
+          },
+        });
+
+        const budgetData = budgetResponse.data.monthlyBudget;
+
+        setData([
+          { name: "Transport", value: parseFloat(budgetData.transport) || 400 },
+          { name: "Entertainment", value: parseFloat(budgetData.entertainment) || 200 },
+          { name: "Food", value: parseFloat(budgetData.food) || 600 },
+          { name: "Savings", value: parseFloat(budgetData.savings) || 300 },
+        ]);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to fetch daily spend limit");
+        setError(err.response?.data?.message || "Failed to fetch financial data");
       } finally {
         setLoading(false);
       }
     };
 
-    if (token) { 
-      fetchDailySpendLimit();
+    if (token) {
+      fetchFinancialData();
     }
   }, []);
-
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
