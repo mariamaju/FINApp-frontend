@@ -22,6 +22,7 @@ const Signup = () => {
     try {
       console.log('data', data);
       const response = await axios.post("http://localhost:3000/api/auth/register", data);
+      console.log("token",response);
       localStorage.setItem("token", response.data.token);
       //console.log("data", response.data);
       navigate("/income");

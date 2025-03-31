@@ -1,8 +1,7 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import axios from 'axios';
-
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -22,128 +21,117 @@ import {
 } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
 
+const data = [
+  { name: "Grocery", value: 400 },
+  { name: "Dining", value: 200 },
+  { name: "Shopping", value: 600 },
+  { name: "Entertainment", value: 300 },
+];
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [dailyLimit, setDailyLimit] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [data, setData] = useState([
-    { name: "Transport", value: 400 },
-    { name: "Entertainment", value: 200 },
-    { name: "Food", value: 600 },
-    { name: "Savings", value: 300 },
-  ]);
+  const [totalExpense, setTotalExpense] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log("token", token);
 
-    const fetchFinancialData = async () => {
+    const fetchDailySpendLimit = async () => {
       try {
-        // Fetch daily spend limit
-        const dailyLimitResponse = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
+        const response = await axios.get("http://localhost:3000/api/auth/daily-spend-limit", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        setDailyLimit(dailyLimitResponse.data.dailySpendLimit);
-
-        // Fetch budget suggestion
-        const budgetResponse = await axios.get("http://localhost:3000/api/auth/budget-suggestion", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            familyMembers: 4, // Change this dynamically if needed
-          },
-        });
-
-        const budgetData = budgetResponse.data.monthlyBudget;
-
-        setData([
-          { name: "Transport", value: parseFloat(budgetData.transport) || 400 },
-          { name: "Entertainment", value: parseFloat(budgetData.entertainment) || 200 },
-          { name: "Food", value: parseFloat(budgetData.food) || 600 },
-          { name: "Savings", value: parseFloat(budgetData.savings) || 300 },
-        ]);
+        setDailyLimit(response.data.dailySpendLimit);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to fetch financial data");
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch daily spend limit", err);
+      }
+    };
+
+    const fetchTotalExpenses = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/expenses/total", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTotalExpense(response.data.totalExpense);
+      } catch (err) {
+        console.error("Failed to fetch total expenses", err);
       }
     };
 
     if (token) {
-      fetchFinancialData();
+      fetchDailySpendLimit();
+      fetchTotalExpenses();
     }
   }, []);
+
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <aside className="sidebar">
-        <h2 className="sidebar-header">Finai Dashboard</h2>
+        <h2 className="sidebar-header">FinAI Dashboard</h2>
         <ul className="sidebar-list">
           <li className="sidebar-item active">
             📊 <span className="sidebar-item-text">Dashboard</span>
           </li>
-          <li className="sidebar-item">
+          <li className="sidebar-item" onClick={() => navigate("/spending")}>
             <IoMdTrendingUp className="icon" /> Spending
           </li>
-          <li className="sidebar-item">💡 Insights</li>
-          <li className="sidebar-item">⚙ Settings</li>
-          <li className="sidebar-item">❓ Help</li>
+          <li className="sidebar-item" onClick={() => navigate("/about")}>
+            ℹ️ About
+          </li>
           <li className="sidebar-item signout" onClick={() => navigate("/")}>
             🔓 Signout
           </li>
         </ul>
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
-        {/* Top Navigation */}
         <div className="top-nav">
           <h2 className="main-heading">Welcome, FinAI</h2>
           <div className="top-nav-actions">
-            <input type="text" placeholder="Search" className="search-input" />
-            <button
-              className="add-expense-btn"
-              onClick={() => navigate("/add-expense")} // Navigate to AddExpense
-            >
+            <div className="total-expenses">
+              Total Expenses: ₹{totalExpense}
+            </div>
+            <button className="add-expense-btn" onClick={() => navigate("/add-expense")}>
               Add Expense
             </button>
           </div>
         </div>
 
-        {/* Dashboard Cards */}
         <div className="dashboard-cards">
-          {/* Payment Options */}
           <div className="card payment-card">
             <h3 className="card-title">Payment</h3>
             <div className="payment-icons">
-              <FaQrcode />
-              <FaCreditCard />
-              <FaMoneyBillWave />
-              <FaMobileAlt />
+              <Link to="/payment-details">
+                <FaQrcode />
+              </Link>
+              <Link to="/payment-details">
+                <FaCreditCard />
+              </Link>
+              <Link to="/payment-details">
+                <FaMoneyBillWave />
+              </Link>
+              <Link to="/payment-details">
+                <FaMobileAlt />
+              </Link>
             </div>
           </div>
 
-          {/* Daily Limit */}
           <div className="card daily-limit-card">
             <h3 className="card-title">Daily Spend Limit: {dailyLimit}</h3>
           </div>
 
-          {/* Rewards */}
           <div className="card rewards-card">
             <h3 className="card-title">Reward</h3>
             <FaTrophy className="reward-icon" />
           </div>
         </div>
 
-        {/* Graph & Right Sidebar (Settings) */}
         <div className="graph-and-sidebar">
-          {/* Bar Chart */}
           <div className="bar-chart">
             <h3 className="card-title">Spending Chart</h3>
             <ResponsiveContainer width="100%" height={200}>
@@ -156,43 +144,33 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Right Sidebar */}
           <div className="settings-sidebar">
-            <div className="setting-item goal-setting">
+            <div className="setting-item goal-setting" onClick={() => navigate("/goal-setting")}>
               <FaBullseye className="setting-icon" />
               <span>Goal Setting</span>
             </div>
-            <div
-              className="setting-item reminder-setting"
-              onClick={() => navigate("/reminder-preference")} // Navigate to ReminderPreference
-            >
+            <div className="setting-item reminder-setting" onClick={() => navigate("/reminder-preference")}>
               <FaBell className="setting-icon" />
               <span>Reminder Setting</span>
             </div>
-            <div
-              className="setting-item budget-setting"
-              onClick={() => navigate("/budget-setting")} // Navigate to BudgetSetting
-            >
+            <div className="setting-item budget-setting" onClick={() => navigate("/budget-setting")}>
               <FaTrophy className="setting-icon" />
               <span>Budget Setting</span>
             </div>
           </div>
         </div>
 
-        {/* Recent Transactions */}
         <div className="recent-transactions">
           <h3 className="card-title">Recent Transactions</h3>
           <ul className="transaction-list">
             <li className="transaction-item">
-              <span>Food</span> <span className="transaction-amount">-100</span>
+              <span>Grocery</span> <span className="transaction-amount">-100</span>
             </li>
             <li className="transaction-item">
-              <span>Transport</span>{" "}
-              <span className="transaction-amount">-20</span>
+              <span>Dining</span> <span className="transaction-amount">-20</span>
             </li>
             <li className="transaction-item">
-              <span>Entertainment</span>{" "}
-              <span className="transaction-amount">-290</span>
+              <span>Shopping</span> <span className="transaction-amount">-290</span>
             </li>
           </ul>
         </div>
@@ -201,4 +179,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard;
