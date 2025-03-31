@@ -1,74 +1,78 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./AddExpense.css"; // Import the CSS file
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddExpense = () => {
+    const [amount, setAmount] = useState('');
+    const [category, setCategory] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const [category, setCategory] = useState("Groceries"); // Default category
-    const [amount, setAmount] = useState(""); // Amount input
 
-    const handleSaveExpense = () => {
-        // Validate amount
-        if (!amount || isNaN(amount)) {
-            alert("Please enter a valid amount.");
+    const handleSaveExpense = async () => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('User not authenticated!');
             return;
         }
 
-        // Save the expense (you can use state management or API calls here)
-        console.log("Category:", category);
-        console.log("Amount: Rs.", amount);
+        if (!amount || !category) {
+            alert('Amount and category are required!');
+            return;
+        }
 
-        // Navigate to the Dashboard or another page
-        navigate("/dashboard");
+        setIsLoading(true);
+
+        try {
+            // Only call the payments API (remove expenses API)
+            const paymentResponse = await axios.post(
+                'http://localhost:3000/api/payments',
+                { amount, category },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            console.log('Payment successful:', paymentResponse.data);
+            alert('Expense recorded successfully!');
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('Error:', error.response?.data || error.message);
+            alert(`Failed: ${error.response?.data?.message || error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
         <div className="add-expense-container">
-            <div className="add-expense-card">
-                <h2 className="add-expense-title">Add Expense</h2>
-                <p className="add-expense-subtitle">Track your expenses by category and amount.</p>
-
-                {/* Category Dropdown */}
-                <div className="form-group">
-                    <label htmlFor="category" className="form-label">
-                        Category
-                    </label>
-                    <select
-                        id="category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        className="form-select"
-                    >
-                        <option value="Groceries">Groceries</option>
-                        <option value="Dining">Dining</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Shopping">Shopping</option>
-                    </select>
-                </div>
-
-                {/* Amount Input */}
-                <div className="form-group">
-                    <label htmlFor="amount" className="form-label">
-                        Amount
-                    </label>
-                    <div className="amount-input-container">
-                        <span className="amount-prefix">Rs.</span>
-                        <input
-                            type="text"
-                            id="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="Enter amount"
-                            className="amount-input"
-                        />
-                    </div>
-                </div>
-
-                {/* Save Expense Button */}
-                <button onClick={handleSaveExpense} className="save-expense-button">
-                    Save Expense
-                </button>
-            </div>
+            <h2>Add New Expense</h2>
+            <input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+            />
+            <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+            >
+                <option value="">Select Category</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Dining">Dining</option>
+                <option value="Shopping">Shopping</option>
+            </select>
+            <button 
+                onClick={handleSaveExpense}
+                disabled={isLoading}
+            >
+                {isLoading ? 'Processing...' : 'Save Expense'}
+            </button>
         </div>
     );
 };
