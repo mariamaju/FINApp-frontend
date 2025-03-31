@@ -1,15 +1,37 @@
-import React, { useState } from "react";
-import "./Spending.css"; // Make sure this path matches your file structure
-
-const spendingData = [
-    { category: "Groceries", amount: 300, max: 1000 },
-    { category: "Shopping", amount: 200, max: 1000 },
-    { category: "Entertainment", amount: 1000, max: 1000 },
-    { category: "Clothing", amount: 200, max: 1000 },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Spending.css";
 
 const Spending = () => {
+    const [spendingData, setSpendingData] = useState([]);
     const [visibleIndex, setVisibleIndex] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const fetchBudget = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/api/auth/budget-details", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const apiResponse = response.data;
+                console.log("API Response:", apiResponse);
+                const formattedData = Object.keys(apiResponse.monthlyBudget).map(category => ({
+                    category: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize first letter
+                    amount: parseFloat(apiResponse.userSpending[category]),
+                    max: parseFloat(apiResponse.monthlyBudget[category])
+                }));
+
+                setSpendingData(formattedData);
+            } catch (error) {
+                console.error("Error fetching budget data:", error);
+            }
+        };
+
+        fetchBudget();
+    }, []);
 
     const handleClick = (index) => {
         setVisibleIndex(visibleIndex === index ? null : index);
@@ -19,15 +41,10 @@ const Spending = () => {
         <div className="spending-container">
             {spendingData.map((item, index) => (
                 <div key={index} className="spending-item">
-                    {/* Category Name & Amount */}
                     <div className="spending-header">
                         <span className="category-name">{item.category}</span>
-                        <span className="amount">
-                            {item.amount} / {item.max}
-                        </span>
+                        <span className="amount">{item.amount} / {item.max}</span>
                     </div>
-
-                    {/* Progress Bar (Clickable) */}
                     <div
                         className="progress-bar-container"
                         onClick={() => handleClick(index)}
@@ -41,24 +58,11 @@ const Spending = () => {
                         }}
                     >
                         <div
-                            className={`progress-bar ${
-                                item.amount >= item.max ? "over-limit" : ""
-                            }`}
-                            style={{
-                                width: `${Math.min(
-                                    (item.amount / item.max) * 100,
-                                    100
-                                )}%`,
-                            }}
+                            className={`progress-bar ${item.amount >= item.max ? "over-limit" : ""}`}
+                            style={{ width: `${Math.min((item.amount / item.max) * 100, 100)}%` }}
                         ></div>
                     </div>
-
-                    {/* Remaining Amount (Animated on toggle) */}
-                    <div
-                        className={`remaining-amount ${
-                            visibleIndex === index ? "visible" : ""
-                        }`}
-                    >
+                    <div className={`remaining-amount ${visibleIndex === index ? "visible" : ""}`}>
                         Remaining: Rs. {Math.max(item.max - item.amount, 0)}
                     </div>
                 </div>

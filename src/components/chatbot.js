@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./chatbot.css";
 import { FaRobot, FaTimes, FaPaperPlane } from "react-icons/fa";
+import axios from "axios"; // Import axios
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,23 +9,48 @@ const Chatbot = () => {
     { text: "Hello! How can I assist you today?", sender: "bot" },
   ]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim() === "") return;
 
-    setMessages([...messages, { text: input, sender: "user" }]);
+    const userMessage = { text: input, sender: "user" };
+    setMessages([...messages, userMessage]);
     setInput("");
+    setLoading(true);
 
-    setTimeout(() => {
+    try {
+      const token = localStorage.getItem("token"); // Get token from local storage
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/generate", // Replace with your API endpoint
+        { prompt: input }, // Send prompt in the request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Important: Set content type
+          },
+        }
+      );
+
+      const botMessage = { text: response.data.response, sender: "bot" };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+    } catch (error) {
+      console.error("Error fetching from API:", error);
+      let errorMessage = "Sorry, I encountered an error.";
+      if (error.response && error.response.data && error.response.data.error){
+          errorMessage = error.response.data.error;
+      }
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: "I'm still learning, but I'll try my best!", sender: "bot" },
+        { text: errorMessage, sender: "bot" },
       ]);
-    }, 1000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,6 +74,7 @@ const Chatbot = () => {
                 {msg.text}
               </div>
             ))}
+            {loading && <div className="chat-message bot">Loading...</div>}
           </div>
 
           <div className="chat-footer">
@@ -57,7 +84,7 @@ const Chatbot = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            <button onClick={handleSend}>
+            <button onClick={handleSend} disabled={loading}>
               <FaPaperPlane />
             </button>
           </div>

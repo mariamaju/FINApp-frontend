@@ -77,6 +77,16 @@
     text-align: center;
     font-size: 14px;
     color: #dee2e8;
+    
+    /* Remove number input arrows */
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Standard */
+}
+
+.budget-input::-webkit-outer-spin-button,
+.budget-input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari */
+    margin: 0;
 }
 
 .budget-slider {
