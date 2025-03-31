@@ -9,7 +9,8 @@ import AddExpense from "./components/AddExpense";
 import BudgetSetting from "./components/BudgetSetting";
 import PaymentDetails from "./components/PaymentDetails";
 import Spending from "./components/Spending";
-import GoalSetting from "./components/GoalForm"; // Import the GoalForm component
+import GoalSetting from "./components/GoalForm";
+import About from "./components/About"; // Import About component
 
 function App() {
     return (
@@ -25,7 +26,8 @@ function App() {
                     <Route path="/budget-setting" element={<BudgetSetting />} />
                     <Route path="/payment-details" element={<PaymentDetails />} />
                     <Route path="/spending" element={<Spending />} />
-                    <Route path="/goal-setting" element={<GoalSetting />} /> {/* New route */}
+                    <Route path="/goal-setting" element={<GoalSetting />} />
+                    <Route path="/about" element={<About />} /> {/* Add About route */}
                 </Routes>
             </div>
         </Router>

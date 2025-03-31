@@ -1,0 +1,50 @@
+.about-container {
+    background-color: black;
+    color: #f0f0f0; /* Light text for dark background */
+    padding: 40px;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .about-container h1 {
+    font-size: 2.5rem;
+    color: #1e90ff; /* Bright blue for contrast */
+  }
+  
+  .about-container h2 {
+    font-size: 2rem;
+    margin-top: 20px;
+    color: #87ceeb; /* Light sky blue */
+  }
+  
+  .about-container p {
+    font-size: 1.2rem;
+    color: #dcdcdc; /* Light gray */
+  }
+  
+  .about-container ul, .about-container ol {
+    text-align: left;
+    margin: auto;
+    max-width: 600px;
+    color: #d3d3d3; /* Slightly lighter gray */
+  }
+
+  .about-container a {
+    color: #1e90ff; /* Bright blue for links */
+  }
+  
+  .back-btn {
+    background-color: #1e90ff;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .back-btn:hover {
+    background-color: #0f6abd;
+  }
