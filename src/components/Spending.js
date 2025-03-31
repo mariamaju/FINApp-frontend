@@ -1,72 +1,70 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import "./Spending.css"; // Make sure this path matches your file structure
 
-const ExpenseTracker = ({ userId }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const spendingData = [
+    { category: "Groceries", amount: 300, max: 1000 },
+    { category: "Shopping", amount: 200, max: 1000 },
+    { category: "Entertainment", amount: 1000, max: 1000 },
+    { category: "Clothing", amount: 200, max: 1000 },
+];
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
-        setUser(response.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        setError("Failed to fetch data. Please try again.");
-      } finally {
-        setLoading(false);
-      }
+const Spending = () => {
+    const [visibleIndex, setVisibleIndex] = useState(null);
+
+    const handleClick = (index) => {
+        setVisibleIndex(visibleIndex === index ? null : index);
     };
 
-    if (userId) fetchUserData();
-  }, [userId]);
+    return (
+        <div className="spending-container">
+            {spendingData.map((item, index) => (
+                <div key={index} className="spending-item">
+                    {/* Category Name & Amount */}
+                    <div className="spending-header">
+                        <span className="category-name">{item.category}</span>
+                        <span className="amount">
+                            {item.amount} / {item.max}
+                        </span>
+                    </div>
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{ color: "red" }}>{error}</div>;
-  if (!user) return <div>No user data found</div>;
+                    {/* Progress Bar (Clickable) */}
+                    <div
+                        className="progress-bar-container"
+                        onClick={() => handleClick(index)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Toggle remaining amount for ${item.category}`}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                handleClick(index);
+                            }
+                        }}
+                    >
+                        <div
+                            className={`progress-bar ${
+                                item.amount >= item.max ? "over-limit" : ""
+                            }`}
+                            style={{
+                                width: `${Math.min(
+                                    (item.amount / item.max) * 100,
+                                    100
+                                )}%`,
+                            }}
+                        ></div>
+                    </div>
 
-  return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px", border: "1px solid #ddd" }}>
-      <h2>Expense Tracker</h2>
-      <p>Annual Income: ${user.annualIncome || 0}</p>
-      <div>
-        <h3>Expense Breakdown</h3>
-        {user.expenses && user.expenses.length > 0 ? (
-          user.expenses.map((expense, index) => {
-            const remaining = expense.categoryLimit - expense.amountSpent;
-            const progress = (expense.amountSpent / expense.categoryLimit) * 100;
-
-            return (
-              <div key={index} style={{ marginBottom: "20px" }}>
-                <h4>{expense.category}</h4>
-                <p>Amount Spent: ${expense.amountSpent}</p>
-                <p>Category Limit: ${expense.categoryLimit}</p>
-                <p>Remaining Budget: ${remaining}</p>
-
-                {/* Progress Bar */}
-                <div style={{ height: "10px", background: "#ddd" }}>
-                  <div
-                    style={{
-                      width: `${Math.min(progress, 100)}%`,
-                      background: progress > 100 ? "red" : "#4caf50",
-                      height: "100%",
-                      transition: "width 0.5s",
-                    }}
-                  ></div>
+                    {/* Remaining Amount (Animated on toggle) */}
+                    <div
+                        className={`remaining-amount ${
+                            visibleIndex === index ? "visible" : ""
+                        }`}
+                    >
+                        Remaining: Rs. {Math.max(item.max - item.amount, 0)}
+                    </div>
                 </div>
-
-                {/* Warning if budget exceeded */}
-                {remaining <= 0 && <p style={{ color: "red" }}>Category limit exceeded!</p>}
-              </div>
-            );
-          })
-        ) : (
-          <p>No expenses recorded.</p>
-        )}
-      </div>
-    </div>
-  );
+            ))}
+        </div>
+    );
 };
 
-export default ExpenseTracker;
+export default Spending;

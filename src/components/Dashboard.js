@@ -20,6 +20,7 @@ import {
   FaBullseye,
 } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
+import Chatbot from "./chatbot";
 
 const data = [
   { name: "Grocery", value: 400 },
@@ -175,6 +176,7 @@ const Dashboard = () => {
           </ul>
         </div>
       </main>
+      <Chatbot/>
     </div>
   );
 };
