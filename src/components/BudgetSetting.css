@@ -111,13 +111,11 @@
     cursor: pointer;
 }
 
-
-
-
-.submit-button {
+/* Back Button Styles */
+.back-button {
     width: 100%;
     padding: 12px;
-    background-color: #38a169;
+    background-color: #4a90e2;
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -128,6 +126,6 @@
     transition: background-color 0.3s;
 }
 
-.submit-button:hover {
-    background-color: #2f855a;
+.back-button:hover {
+    background-color: #357abd;
 }
