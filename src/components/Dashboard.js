@@ -48,6 +48,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    let dailyLimitVal = 0;
     console.log("token", token);
 
     const fetchDashboardData = async () => {
@@ -62,6 +63,7 @@ const Dashboard = () => {
           }
         );
         setDailyLimit(limitResponse.data.dailySpendLimit);
+        dailyLimitVal = limitResponse.data.dailySpendLimit;
 
         // Fetch budget and spending data (same as Spending.js)
         const budgetResponse = await axios.get(
@@ -91,7 +93,7 @@ const Dashboard = () => {
           (sum, item) => sum + item.value,
           0
         );
-        setTotalExpense(total);
+       // setTotalExpense(total);
 
         // Create recent transactions from spending data
         const transactions = formattedData
@@ -107,12 +109,30 @@ const Dashboard = () => {
         console.error("Failed to fetch dashboard data", err);
       }
     };
+    
+     const fetchTotalExpenses = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/payments/total-expenses", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Total Expenses Response:", response.data.totalExpenses, dailyLimitVal);
+        setTotalExpense(response.data.totalExpenses);
+        
+        if(response.data.totalExpenses > dailyLimitVal) {
+          alert("You have exceeded your daily spend limit!");
+        }
+      } catch (err) {
+        console.error("Failed to fetch total expenses", err);
+      }
+    };
 
     if (token) {
       fetchDashboardData();
+      fetchTotalExpenses();
     }
   }, []);
-
   return (
     <div className="dashboard-container">
       {/* Sidebar remains unchanged */}
