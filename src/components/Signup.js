@@ -8,6 +8,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -20,11 +21,10 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log('data', data);
+      console.log("data", data);
       const response = await axios.post("http://localhost:3000/api/auth/register", data);
-      console.log("token",response);
+      console.log("token", response);
       localStorage.setItem("token", response.data.token);
-      //console.log("data", response.data);
       navigate("/income");
     } catch (error) {
       console.log("data", error);
@@ -57,22 +57,49 @@ const Signup = () => {
           <form onSubmit={(e) => e.preventDefault()}>
             <h2>Personal Information</h2>
             <div className="input-group">
-              <input {...register("firstName", { required: "First Name is required" })} placeholder="First Name" />
+              <input
+                {...register("firstName", { required: "First Name is required" })}
+                placeholder="First Name"
+              />
               {errors.firstName && <p className="error-message">{errors.firstName.message}</p>}
 
-              <input {...register("lastName", { required: "Last Name is required" })} placeholder="Last Name" />
+              <input
+                {...register("lastName", { required: "Last Name is required" })}
+                placeholder="Last Name"
+              />
               {errors.lastName && <p className="error-message">{errors.lastName.message}</p>}
 
-              <input {...register("email", { required: "Email is required", pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email format" } })} placeholder="Email" />
+              <input
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email format" },
+                })}
+                placeholder="Email"
+              />
               {errors.email && <p className="error-message">{errors.email.message}</p>}
 
-              <input {...register("phone", { required: "Phone Number is required", pattern: { value: /^\d{10}$/, message: "Phone number must be 10 digits" } })} placeholder="Phone Number" />
+              <input
+                {...register("phone", {
+                  required: "Phone Number is required",
+                  pattern: { value: /^\d{10}$/, message: "Phone number must be 10 digits" },
+                  validate: (value) => value !== "0000000000" || "Phone number cannot be all zeros",
+                })}
+                placeholder="Phone Number"
+              />
               {errors.phone && <p className="error-message">{errors.phone.message}</p>}
 
-              <input {...register("bankName", { required: "Bank Name is required" })} placeholder="Bank Name" />
+              <select {...register("bankName", { required: "Bank selection is required" })}>
+                <option value="">Select Bank</option>
+                <option value="SBI">SBI</option>
+                <option value="SIB">SIB</option>
+                <option value="Canara">Canara</option>
+                <option value="Other">Other</option>
+              </select>
               {errors.bankName && <p className="error-message">{errors.bankName.message}</p>}
             </div>
-            <button onClick={handleNextStep} className="next-btn">Next</button>
+            <button onClick={handleNextStep} className="next-btn">
+              Next
+            </button>
           </form>
         )}
 
@@ -80,14 +107,32 @@ const Signup = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <h2>Security Details</h2>
             <div className="input-group">
-              <input {...register("password", { required: "Password is required", minLength: { value: 5, message: "Password must be at least 5 characters" } })} placeholder="Password" type="password" />
+              <input
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: { value: 5, message: "Password must be at least 5 characters" },
+                })}
+                placeholder="Password"
+                type="password"
+              />
               {errors.password && <p className="error-message">{errors.password.message}</p>}
 
-              <input {...register("confirmPassword", { required: "Confirm Password is required", validate: (value) => value === password || "Passwords do not match" })} placeholder="Confirm Password" type="password" />
+              <input
+                {...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                  validate: (value) => value === password || "Passwords do not match",
+                })}
+                placeholder="Confirm Password"
+                type="password"
+              />
               {errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
             </div>
-            <button onClick={() => setStep(1)} className="back-btn">Back</button>
-            <button type="submit" className="signup-btn">Sign Up</button>
+            <button onClick={() => setStep(1)} className="back-btn">
+              Back
+            </button>
+            <button type="submit" className="signup-btn">
+              Sign Up
+            </button>
           </form>
         )}
       </div>

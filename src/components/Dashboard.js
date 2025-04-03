@@ -63,7 +63,7 @@ const Dashboard = () => {
           }
         );
         setDailyLimit(limitResponse.data.dailySpendLimit);
-        dailyLimitVal = limitResponse.data.dailySpendLimit;
+        dailyLimitVal = parseInt(limitResponse.data.dailySpendLimit, 10);
 
         // Fetch budget and spending data (same as Spending.js)
         const budgetResponse = await axios.get(
@@ -129,8 +129,10 @@ const Dashboard = () => {
     };
 
     if (token) {
-      fetchDashboardData();
-      fetchTotalExpenses();
+      (async () => {
+        await fetchDashboardData();
+        fetchTotalExpenses();
+      })();
     }
   }, []);
   return (
