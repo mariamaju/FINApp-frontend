@@ -10,13 +10,19 @@ import BudgetSetting from "./components/BudgetSetting";
 import PaymentDetails from "./components/PaymentDetails";
 import Spending from "./components/Spending";
 import GoalSetting from "./components/GoalForm";
-import About from "./components/About"; // Import About component
-
+import About from "./components/About";
+import AdminDashboard from "./components/AdminDashboard";
+import Profile from "./components/Profile";
 function App() {
+    const isAdminAuthenticated = () => {
+        return localStorage.getItem("adminToken") !== null;
+    };
+
     return (
         <Router>
             <div className="App">
                 <Routes>
+                    {/* User Routes */}
                     <Route path="/" element={<Login />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/signup" element={<Signup />} />
@@ -27,7 +33,13 @@ function App() {
                     <Route path="/payment-details" element={<PaymentDetails />} />
                     <Route path="/spending" element={<Spending />} />
                     <Route path="/goal-setting" element={<GoalSetting />} />
-                    <Route path="/about" element={<About />} /> {/* Add About route */}
+                    <Route path="/about" element={<About />} />
+                    <Route path="/profile" element={<Profile />} />
+
+                    {/* Admin Route */}
+                    <Route path="/admin-dashboard" 
+                        element={isAdminAuthenticated() ? <AdminDashboard /> : <Login />}
+                    />
                 </Routes>
             </div>
         </Router>
