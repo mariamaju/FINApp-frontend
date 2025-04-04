@@ -18,6 +18,7 @@ import {
   FaTrophy,
   FaBell,
   FaBullseye,
+  FaUser, // ADDED: Profile icon import
 } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
 import Chatbot from "./chatbot";
@@ -133,9 +134,10 @@ const Dashboard = () => {
       fetchTotalExpenses();
     }
   }, []);
+
   return (
     <div className="dashboard-container">
-      {/* Sidebar remains unchanged */}
+      {/* Updated Sidebar with Profile button */}
       <aside className="sidebar">
         <h2 className="sidebar-header">FinAI Dashboard</h2>
         <ul className="sidebar-list">
@@ -147,6 +149,10 @@ const Dashboard = () => {
           </li>
           <li className="sidebar-item" onClick={() => navigate("/about")}>
             ℹ About
+          </li>
+          {/* ADDED: Profile button */}
+          <li className="sidebar-item" onClick={() => navigate("/profile")}>
+            <FaUser className="icon" /> <span className="sidebar-item-text">Profile</span>
           </li>
           <li className="sidebar-item signout" onClick={() => navigate("/")}>
             🔓 Signout
@@ -191,45 +197,43 @@ const Dashboard = () => {
             </div>
           </div>
           
-
           <div className="card daily-limit-card">
             <h3 className="card-title">Daily Spend Limit: {dailyLimit}</h3>
           </div>
 
           <div className="card rewards-card" onClick={handleRewardClick}>
-  <h3 className="card-title">Reward</h3>
-  <FaTrophy className="reward-icon" />
-  
-  {showReward && (
-    <div className={`reward-message ${rewardType}`}>
-      <div className="reward-emojis">
-        {rewardType === "happy" ? (
-          <>
-            🏆🎉😊<br />
+            <h3 className="card-title">Reward</h3>
+            <FaTrophy className="reward-icon" />
             
-          </>
-        ) : (
-          <>
-            <br />
-            ⚠️😞
-          </>
-        )}
-      </div>
-      <p>{rewardMessage}</p>
-      {rewardType === "sad" && (
-        <div className="advice">
-          <p>Tips to save:</p>
-          <ul>
-            <li>Review small purchases</li>
-            <li>Cook at home more</li>
-            <li>Use public transport</li>
-          </ul>
+            {showReward && (
+              <div className={`reward-message ${rewardType}`}>
+                <div className="reward-emojis">
+                  {rewardType === "happy" ? (
+                    <>
+                      🏆🎉😊<br />
+                    </>
+                  ) : (
+                    <>
+                      <br />
+                      ⚠️😞
+                    </>
+                  )}
+                </div>
+                <p>{rewardMessage}</p>
+                {rewardType === "sad" && (
+                  <div className="advice">
+                    <p>Tips to save:</p>
+                    <ul>
+                      <li>Review small purchases</li>
+                      <li>Cook at home more</li>
+                      <li>Use public transport</li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      )}
-    </div>
-  )}
-</div>
-</div>
 
         <div className="graph-and-sidebar">
           {/* Dynamic Bar Chart */}

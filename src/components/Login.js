@@ -15,10 +15,19 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log('data', data);
+      console.log("data", data);
+
+      // Check if user is admin
+      if (data.email === "admin@gmail.com" && data.password === "admin@123") {
+        localStorage.setItem("adminToken", "authenticated");
+        navigate("/admin-dashboard"); // Redirect to Admin Dashboard
+        return;
+      }
+
+      // For regular users, continue with API login
       const response = await axios.post("http://localhost:3000/api/auth/login", data);
       localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      navigate("/dashboard"); // Redirect to User Dashboard
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "An error occurred. Please try again.");
     }
