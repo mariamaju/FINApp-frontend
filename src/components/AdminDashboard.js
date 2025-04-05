@@ -245,7 +245,7 @@ const AdminDashboard = () => {
                   <th>Email</th>
                   <th>Join Date</th>
                   <th>Status</th>
-                  <th>Actions</th>
+    
                 </tr>
               </thead>
               <tbody>
@@ -259,10 +259,7 @@ const AdminDashboard = () => {
                         {user.status ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td>
-                      <button className="action-btn view-btn">View</button>
-                      <button className="action-btn edit-btn">Edit</button>
-                    </td>
+                    
                   </tr>
                 ))}
               </tbody>
@@ -321,7 +318,7 @@ const AdminDashboard = () => {
                   <th>Amount</th>
                   <th>Category</th>
                   <th>Date</th>
-                  <th>Actions</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -332,9 +329,7 @@ const AdminDashboard = () => {
                     <td>₹{tx.amount}</td>
                     <td>{tx.category}</td>
                     <td>{formatDate(tx.date)}</td>
-                    <td>
-                      <button className="action-btn view-btn">Details</button>
-                    </td>
+                    
                   </tr>
                 ))}
               </tbody>

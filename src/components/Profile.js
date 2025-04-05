@@ -26,13 +26,13 @@ const Profile = () => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/user', {
+        const response = await axios.get('http://localhost:3000/api/auth/user-details', {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         setUserData({
-          name: response.data.name || '',
+          name: `${response.data.firstName || ''} ${response.data.lastName || ''}`.trim(),
           email: response.data.email || '',
           phone: response.data.phone || '',
           bankName: response.data.bankName || ''
@@ -59,7 +59,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     setIsLoading(true);
     try {
-      await axios.put('http://localhost:3000/api/auth/update-profile', userData, {
+      await axios.put('http://localhost:3000/api/auth/update-user', userData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
