@@ -13,6 +13,8 @@ import GoalSetting from "./components/GoalForm";
 import About from "./components/About";
 import AdminDashboard from "./components/AdminDashboard";
 import Profile from "./components/Profile";
+import ForgotPassword from './components/ForgotPassword';
+
 function App() {
     const isAdminAuthenticated = () => {
         return localStorage.getItem("adminToken") !== null;
@@ -35,6 +37,7 @@ function App() {
                     <Route path="/goal-setting" element={<GoalSetting />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
 
                     {/* Admin Route */}
                     <Route path="/admin-dashboard" 
