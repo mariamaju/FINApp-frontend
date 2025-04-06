@@ -8,7 +8,7 @@
 /* Chatbot Icon */
 .chatbot-icon {
     background-color: #3182ce;
-    color: white;
+    color: rgb(89, 99, 161);
     border: none;
     border-radius: 50%;
     width: 100px;
@@ -64,12 +64,12 @@
 }
 
 .chat-message.bot {
-    background: #e2e8f0;
+    background: #043472;
     align-self: flex-start;
 }
 
 .chat-message.user {
-    background: #3182ce;
+    background: #050c13;
     color: white;
     align-self: flex-end;
     margin-left: auto;

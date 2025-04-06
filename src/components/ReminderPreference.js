@@ -1,104 +1,93 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaSun, FaCloudSun, FaMoon } from "react-icons/fa"; // Import icons
-import "./ReminderPreference.css";
+import "./ReminderPreference.css"; // Import the CSS file
+
+
+// Example of initial categories - these would be replaced by database data
+const initialCategories = [
+  { name: "Grocery", color: "red", items: ["Groceries", "Fruits & Vegetables", "Meat & Dairy", "Pantry Items"] },
+  { name: "Shopping", color: "orange", items: ["Clothes", "Electronics", "Beauty", "Home Goods", "Gifts"] },
+  { name: "Dining", color: "green", items: ["Restaurants", "Coffee Shops", "Fast Food", "Delivery"] },
+  { name: "Entertainment", color: "blue", items: ["Movies", "Concerts/Events", "Hobbies", "Parties", "Leisure Travel"] },
+];
 
 const ReminderPreference = () => {
-    const navigate = useNavigate();
-    const [morningTime, setMorningTime] = useState("08:00");
-    const [afternoonTime, setAfternoonTime] = useState("13:00");
-    const [nightTime, setNightTime] = useState("22:00"); // Default night time
-
-    // Show popup message on page load
-    useEffect(() => {
-        alert("You can set your reminder preferences. By default, the night reminder is set to 10:00 PM.");
-    }, []);
-
-    const handleSave = () => {
-        // Save the selected times (you can use state management or API calls here)
-        console.log("Morning Time:", morningTime);
-        console.log("Afternoon Time:", afternoonTime);
-        console.log("Night Time:", nightTime);
-
-        // Navigate to the Dashboard
-        navigate("/dashboard");
+  const [expenses, setExpenses] = useState({});
+  const [dates, setDates] = useState({});
+  const [categories, setCategories] = useState([]);
+  
+  // Simulate loading categories from database
+  useEffect(() => {
+    // In a real implementation, this would be a fetch call to your database
+    const fetchCategories = () => {
+      // Simulating database response delay
+      setTimeout(() => {
+        setCategories(initialCategories);
+      }, 500);
     };
+    
+    fetchCategories();
+  }, []);
 
-    // Function to format time with AM/PM
-    const formatTimeWithAMPM = (time) => {
-        const [hours, minutes] = time.split(":");
-        const parsedHours = parseInt(hours, 10);
-        const ampm = parsedHours >= 12 ? "PM" : "AM";
-        const formattedHours = parsedHours % 12 || 12;
-        return `${formattedHours}:${minutes} ${ampm}`;
-    };
+  const handleAmountChange = (category, item, value) => {
+    setExpenses((prev) => ({
+      ...prev,
+      [category]: { ...prev[category], [item]: value },
+    }));
+  };
 
-    return (
-        <div className="reminder-preference-container">
-            <div className="reminder-preference-card">
-                <h2 className="reminder-preference-title">Set Your Reminder Preferences</h2>
-                <p className="reminder-preference-subtitle">
-                    Choose your preferred reminder times for morning, afternoon, and night.
-                </p>
+  const handleDateChange = (category, item, value) => {
+    setDates((prev) => ({
+      ...prev,
+      [category]: { ...prev[category], [item]: value },
+    }));
+  };
 
-                {/* Morning Reminder */}
-                <div className="reminder-section">
-                    <div className="icon-time-container">
-                        <div className="reminder-icon">
-                            <FaSun size={24} color="#FFD700" /> {/* Morning icon */}
-                        </div>
-                        <input
-                            type="time"
-                            value={morningTime}
-                            onChange={(e) => setMorningTime(e.target.value)}
-                            className="time-input"
-                        />
-                        <span className="time-ampm">{formatTimeWithAMPM(morningTime)}</span>
-                    </div>
-                    <p className="reminder-label">Morning</p>
-                </div>
+  return (
+    <div className="spending-report">
+      <h1 className="title">TRANSACTION OVERVIEW</h1>
+      <div className="grid">
+        
+           
 
-                {/* Afternoon Reminder */}
-                <div className="reminder-section">
-                    <div className="icon-time-container">
-                        <div className="reminder-icon">
-                            <FaCloudSun size={24} color="#FFA500" /> {/* Afternoon icon */}
-                        </div>
-                        <input
-                            type="time"
-                            value={afternoonTime}
-                            onChange={(e) => setAfternoonTime(e.target.value)}
-                            className="time-input"
-                        />
-                        <span className="time-ampm">{formatTimeWithAMPM(afternoonTime)}</span>
-                    </div>
-                    <p className="reminder-label">Afternoon</p>
-                </div>
+        {/* Dynamic categories from database */}
+        {categories.map(({ name, color, items }) => (
+          <div key={name} className={`category-card ${color}`}>
+            <h3>{name}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => (
+                  <tr key={item}>
+                    <td>
+                      <input
+                        type="date"
+                        value={dates[name]?.[item] || ""}
+                        onChange={(e) => handleDateChange(name, item, e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        placeholder="Rs.0.00"
+                        value={expenses[name]?.[item] || ""}
+                        onChange={(e) => handleAmountChange(name, item, e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
 
-                {/* Night Reminder */}
-                <div className="reminder-section">
-                    <div className="icon-time-container">
-                        <div className="reminder-icon">
-                            <FaMoon size={24} color="#000080" /> {/* Night icon */}
-                        </div>
-                        <input
-                            type="time"
-                            value={nightTime}
-                            onChange={(e) => setNightTime(e.target.value)}
-                            className="time-input"
-                        />
-                        <span className="time-ampm">{formatTimeWithAMPM(nightTime)}</span>
-                    </div>
-                    <p className="reminder-label">Night</p>
-                </div>
-
-                {/* OK Button */}
-                <button onClick={handleSave} className="ok-button">
-                    OK
-                </button>
-            </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default ReminderPreference;

@@ -1,92 +1,172 @@
 .goal-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .goal-container h1 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .submit-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .submit-btn:hover {
-    background-color: #2980b9;
-  }
-  
-  .result-box {
-    margin-top: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #1e2736; /* Dark background matching dashboard */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #ffffff; /* White text */
+}
+
+.goal-container h1 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Labels for goal-related inputs */
+.form-group label,
+label[for="goal-input"],
+label[for="target-amount"],
+label[for="duration"],
+label[for="daily-limit"] {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #ffffff !important; /* Force white */
+  font-size: 1.05rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #364153;
+  background-color: #283445;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+.form-group input::placeholder {
+  color: #a0aab8;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #2980b9;
+}
+
+.result-box {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 5px;
+}
+
+.success {
+  background-color: rgba(46, 125, 50, 0.2);
+  border: 1px solid #2e7d32;
+  color: #ffffff;
+}
+
+.error {
+  background-color: rgba(229, 57, 53, 0.2);
+  border: 1px solid #e53935;
+  color: #ffffff;
+}
+
+.daily-amount {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background-color: #283445;
+  border-radius: 5px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #ff8a80;
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  color: #81c784;
+}
+
+.total-expenses {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  background-color: #1a2330;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #3498db;
+}
+
+.goal-setting-section {
+  padding: 1rem;
+  background-color: #283445;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.goal-type-selector {
+  display: flex;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.goal-type-selector button {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: #364153;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.goal-type-selector button.active {
+  background-color: #3498db;
+  color: white;
+}
+
+h2.goal-header, 
+h3.goal-header,
+.goal-title,
+.goal-question {
+  color: #ffffff !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .goal-container {
+    margin: 1rem;
     padding: 1.5rem;
-    border-radius: 5px;
   }
-  
-  .success {
-    background-color: #e8f5e9;
-    border: 1px solid #c8e6c9;
+
+  .form-group input {
+    padding: 0.6rem;
   }
-  
-  .error {
-    background-color: #ffebee;
-    border: 1px solid #ffcdd2;
-  }
-  
+
   .daily-amount {
-    font-size: 1.25rem;
-    margin: 1rem 0;
-    padding: 0.5rem;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    text-align: center;
+    font-size: 1.1rem;
   }
-  
-  .error-message {
-    color: #e53935;
-    margin-top: 0.5rem;
-  }
-  
-  .success-message {
-    color: #2e7d32;
-  }
-  .total-expenses {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white; /* Ensures visibility on dark backgrounds */
-    background-color: rgba(255, 255, 255, 0.1); /* Adds subtle contrast */
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-  }
+}

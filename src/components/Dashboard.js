@@ -269,7 +269,7 @@ const Dashboard = () => {
               onClick={() => navigate("/reminder-preference")}
             >
               <FaBell className="setting-icon" />
-              <span>Reminder Setting</span>
+              <span>Spending Report</span>
             </div>
             <div
               className="setting-item budget-setting"
@@ -283,7 +283,7 @@ const Dashboard = () => {
 
         {/* Dynamic Recent Transactions */}
         <div className="recent-transactions">
-          <h3 className="card-title">Recent Transactions</h3>
+          <h3 className="recent-transaction">Recent Transactions</h3>
           <ul className="transaction-list">
             {recentTransactions.map((transaction, index) => (
               <li key={index} className="transaction-item">

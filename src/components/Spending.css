@@ -1,69 +1,141 @@
 .spending-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
     width: 100%;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 32px;
+    background-color: #1e2a3a;
+    border-radius: 12px;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+}
+
+.spending-title {
+    color: #ffffff;
+    font-size: 26px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.spending-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .spending-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
+    background-color: #253545;
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spending-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .spending-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 18px;
-    font-weight: bold;
-    color: #333;
+    margin-bottom: 8px;
 }
 
 .category-name {
-    font-weight: bold;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 18px;
 }
 
 .amount {
     font-weight: normal;
-    color: #666;
+    color: #d1d5db;
+    font-size: 16px;
 }
 
 .progress-bar-container {
-    height: 8px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
+    height: 12px;
+    background-color: #374a5e;
+    border-radius: 6px;
     overflow: hidden;
     position: relative;
-    cursor: pointer; /* Makes it clear it's clickable */
+    cursor: pointer;
+    margin: 8px 0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50; /* Green (or any color you prefer) */
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, #39e5b5, #2bc7a0);
+    transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Style for when the amount exceeds max (optional) */
 .progress-bar.over-limit {
-    background-color: #f44336; /* Red */
+    background: linear-gradient(90deg, #ff6b6b, #ff5050);
 }
 
-/* Remaining amount styling */
 .remaining-amount {
     font-size: 14px;
-    color: #666;
+    color: #a0a0a0;
     text-align: right;
-    margin-top: 4px;
+    margin-top: 6px;
     opacity: 0;
     transform: translateY(-5px);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    font-style: italic;
 }
 
-/* Animation when remaining amount is visible */
 .remaining-amount.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.no-data-message {
+    color: #a0a0a0;
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* Additional visual enhancements */
+.spending-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #39e5b5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments for very large screens */
+@media (min-width: 1200px) {
+    .spending-container {
+        max-width: 1000px;
+        padding: 40px;
+    }
+    
+    .spending-title {
+        font-size: 28px;
+    }
+    
+    .spending-item {
+        padding: 24px;
+    }
 }
